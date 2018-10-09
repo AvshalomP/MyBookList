@@ -1,14 +1,9 @@
 const mongoose = require('mongoose');
 
-const authorSchema = mongoose.Schema(
+const authorSchema = new mongoose.Schema(
     {
-        name: {
-            type: String,
-        },
-        age: {
-            type: Number,
-        },
-
+        name: { type: String, },
+        age: { type: Number, },
     }
 );
 
