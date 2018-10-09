@@ -1,8 +1,7 @@
 const graphql = require('graphql');
 const _ = require('lodash');
 const { books, authors } = require('./dummyDB');
-const BookType = require('./book');
-const AuthorType = require('./author');
+const { BookType, AuthorType } = require('./types');
 
 const { GraphQLSchema, GraphQLObjectType, GraphQLID} = graphql;
 
