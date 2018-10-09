@@ -1,11 +1,11 @@
 const graphql = require('graphql');
-const _ = require('lodash');
-const { authors, books } = require('./dummyDB');
+const db = require('../models');
 
 
 const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLInt, GraphQLList } = graphql;
 
 /* Types */
+// BookType
 const BookType = new GraphQLObjectType({
     name: 'Book',
     fields: () => ({
@@ -15,12 +15,13 @@ const BookType = new GraphQLObjectType({
         author: {
             type: AuthorType,
             resolve(parent, args){
-                return _.find(authors, { id: parent.authorId })
+                //Get data from db
+                return db.Author.findById(parent.authorId);
             }
         }
     })
 });
-
+// AuthorType
 const AuthorType = new GraphQLObjectType({
     name: 'Author',
     fields: () => ({
@@ -30,7 +31,8 @@ const AuthorType = new GraphQLObjectType({
         books: {
             type: GraphQLList(BookType),
             resolve(parent, args){
-                return _.filter(books, { authorId: parent.id })
+                //Get data from db
+                return db.Book.find({authorId: parent.id});
             }
         }
     })
