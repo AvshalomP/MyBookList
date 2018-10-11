@@ -11,31 +11,43 @@ const RootQuery = new GraphQLObjectType({
         book: {
             type: BookType,
             args: { id: {type: GraphQLID } },
-            resolve(parent, args){
-                //Get data from db
-                return db.Book.findById(args.id);
+            async resolve(parent, args){
+                try {
+                    //Get data from db
+                    return await db.Book.findById(args.id);
+                }
+                catch (err) { console.log(err) }
             }
         },
         author: {
             type: AuthorType,
             args: { id: {type: GraphQLID } },
-            resolve(parent, args){
-                //Get data from db
-                return db.Author.findById(args.id);
+            async resolve(parent, args){
+                try {
+                    //Get data from db
+                    return await db.Author.findById(args.id);
+                }
+                catch (err) { console.log(err) }
             }
         },
         books: {
             type: GraphQLList(BookType),
-            resolve(parent, args){
-                //Get data from db
-                return db.Book.find({});
+            async resolve(parent, args){
+                try {
+                    //Get data from db
+                    return await db.Book.find({});
+                }
+                catch (err) { console.log(err) }
             }
         },
         authors: {
             type: GraphQLList(AuthorType),
-            resolve(parent, args){
-                //Get data from db
-                return db.Author.find({});
+            async resolve(parent, args){
+                try {
+                    //Get data from db
+                    return await db.Author.find({});
+                }
+                catch (err) { console.log(err) }
             }
         }
     }

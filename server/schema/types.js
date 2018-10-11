@@ -14,9 +14,12 @@ const BookType = new GraphQLObjectType({
         genre: { type: GraphQLString },
         author: {
             type: AuthorType,
-            resolve(parent, args){
-                //Get data from db
-                return db.Author.findById(parent.authorId);
+            async resolve(parent, args){
+                try {
+                    //Get data from db
+                    return await db.Author.findById(parent.authorId);
+                }
+                catch (err) { console.log(err) }
             }
         }
     })
@@ -30,9 +33,12 @@ const AuthorType = new GraphQLObjectType({
         age: { type: GraphQLInt },
         books: {
             type: GraphQLList(BookType),
-            resolve(parent, args){
-                //Get data from db
-                return db.Book.find({authorId: parent.id});
+            async resolve(parent, args){
+                try{
+                    //Get data from db
+                    return await db.Book.find({authorId: parent.id});
+                }
+                catch (err) { console.log(err) }
             }
         }
     })
