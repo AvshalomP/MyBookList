@@ -5,11 +5,16 @@ import { graphql } from 'react-apollo';
 
 class BookList extends Component {
     render() {
-        console.log(this.props);
+        const { data } = this.props;
+        const books = data.loading ? (<div>Loading Books...</div>)
+            : data.books.map( book => {
+                return (<li key={book.id}>{book.name}</li>)
+        });
+
         return (
             <div>
                 <ul id="book-list">
-                    <li>Book Name</li>
+                    { books }
                 </ul>
             </div>
         );
