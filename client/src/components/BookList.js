@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getBooksQuery } from "../services/queries/books";
+import { getBooksQuery } from "../services/queries/index";
 import { graphql } from 'react-apollo';
 
 

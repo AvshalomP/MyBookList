@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { getAuthorsQuery } from "../services/queries/authors";
-import { graphql } from 'react-apollo';
+import { getAuthorsQuery, getBooksQuery } from "../services/queries/index";
+import { addBookMutation } from "../services/queries/mutations";
+import { graphql, compose } from 'react-apollo';
 
 
 class AddBook extends Component {
@@ -8,14 +9,14 @@ class AddBook extends Component {
         super(props);
 
         this.state = {
-            book: "",
+            name: "",
             genre: "",
             authorId: ""
         }
     }
 
     getAuthors(){
-        const { data } = this.props;
+        const data = this.props.getAuthorsQuery;
 
         return data.loading ? (<option disabled>Loading Authors...</option>)
                             : data.authors.map( author => {
@@ -30,8 +31,13 @@ class AddBook extends Component {
     };
 
     handleSubmit = (event) => {
+        const { name, genre, authorId } = this.state;
+
         event.preventDefault();
-        console.log(this.state);
+        this.props.addBookMutation({
+            variables: { name, genre, authorId },
+            refetchQueries: [{ query: getBooksQuery }]
+        });
     };
 
     render() {
@@ -40,16 +46,16 @@ class AddBook extends Component {
             <form id="add-book" onSubmit={this.handleSubmit}>
                 <div className="input">
                     <label>Book name:</label>
-                    <input type="text" name="book" onChange={this.handleChange}/>
+                    <input type="text" name="name" onChange={this.handleChange} required/>
                 </div>
                 <div className="input">
                     <label>Genre</label>
-                    <input type="text" name="genre" onChange={this.handleChange}/>
+                    <input type="text" name="genre" onChange={this.handleChange} required/>
                 </div>
                 <div>
                     <label>Author:</label>
-                    <select name="authorId" onChange={this.handleChange}>
-                        <option label="Select author"/>
+                    <select name="authorId" onChange={this.handleChange} required>
+                        <option label="Select author" defaultValue/>
                         { authors }
                     </select>
                 </div>
@@ -59,4 +65,7 @@ class AddBook extends Component {
     }
 }
 
-export default graphql(getAuthorsQuery)(AddBook);
+export default compose(
+    graphql(getAuthorsQuery, {name: "getAuthorsQuery"}),
+    graphql(addBookMutation, {name: "addBookMutation"})
+)(AddBook);
