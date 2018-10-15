@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { getAuthorsQuery, getBooksQuery } from "../services/queries/index";
-import { addBookMutation } from "../services/queries/mutations";
+import { getAuthorsQuery, getBooksQuery, addBookMutation } from "../services/queries/index";
 import { graphql, compose } from 'react-apollo';
 
 
