@@ -4,26 +4,40 @@ import { ApolloProvider } from 'react-apollo';
 
 // components
 import BookList from './components/BookList';
+import BookDedatils from './components/BookDetails';
 import AddBook from './components/AddBook';
+
 
 // setup apollo
 const client = new ApolloClient({
-    uri: 'http://localhost:4000/graphql'
+    uri: 'http://192.168.1.2:4000/graphql'
 });
 
 
 class App extends Component {
-  render() {
-    return (
-        <ApolloProvider client={client} >
-          <div id="main">
-            <h1>My Book List</h1>
-            <BookList />
-            <AddBook/>
-          </div>
-        </ApolloProvider>
-    );
-  }
+    constructor(props){
+        super(props);
+
+        this.state = {
+            selected: null
+        }
+    }
+
+    handleBookSelection = (id) => {
+        this.setState({selected: id})
+    };
+
+    render() {
+        return (
+            <ApolloProvider client={client} >
+              <div id="main">
+                <BookList handleBookSelection={this.handleBookSelection}/>
+                <AddBook />
+                <BookDedatils bookId={this.state.selected}/>
+              </div>
+            </ApolloProvider>
+        );
+    }
 }
 
 export default App;

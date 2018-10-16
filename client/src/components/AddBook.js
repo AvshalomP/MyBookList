@@ -37,23 +37,27 @@ class AddBook extends Component {
             variables: { name, genre, authorId },
             refetchQueries: [{ query: getBooksQuery }]
         });
+
+        this.setState({ name: "", genre: "", authorId: "" })
     };
 
     render() {
+        const { name, genre, authorId } = this.state;
         const authors = this.getAuthors();
+
         return (
             <form id="add-book" onSubmit={this.handleSubmit}>
-                <div className="input">
-                    <label>Book name:</label>
-                    <input type="text" name="name" onChange={this.handleChange} required/>
+                <div className="field">
+                    <label>Book name: </label>
+                    <input type="text" name="name" onChange={this.handleChange} value={name} required/>
                 </div>
-                <div className="input">
-                    <label>Genre</label>
-                    <input type="text" name="genre" onChange={this.handleChange} required/>
+                <div className="field">
+                    <label>Genre: </label>
+                    <input type="text" name="genre" onChange={this.handleChange} value={genre} required/>
                 </div>
-                <div>
-                    <label>Author:</label>
-                    <select name="authorId" onChange={this.handleChange} required>
+                <div className="field">
+                    <label>Author: </label>
+                    <select name="authorId" onChange={this.handleChange} value={authorId} required>
                         <option label="Select author" defaultValue/>
                         { authors }
                     </select>

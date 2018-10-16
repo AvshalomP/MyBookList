@@ -6,7 +6,7 @@ import { graphql } from 'react-apollo';
 class BookDetails extends Component {
     render(){
         const { book } = this.props.data;
-        const details = !book ? (<div>No book selected...</div>)
+        const details = !book ? (<h2>No book selected...</h2>)
                               : (<div>
                                       <h2>{book.name}</h2>
                                       <p>Genre: {book.genre}</p>
